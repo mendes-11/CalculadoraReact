@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { UtilsContext } from "./Contex";
 
 export default function Calculadora(props){
     
     const [text, setText] = useState("");
+
+    const {utils, setUtils} = useContext(UtilsContext)
+
+    function goToHistorico(){
+        setUtils({...utils, text: [text] })
+        props.navigation.navigate("Historico")
+    }
 
     return(
         <View style={styles.container}>
@@ -43,7 +51,7 @@ export default function Calculadora(props){
             </View>
             <View style={styles.container2}>
                 <TouchableOpacity style={styles.botao} onPress={() => setText("")}>Limpar</TouchableOpacity>
-                <TouchableOpacity style={styles.botao} onPress={() => props.navigation.navigate("Historico")}>
+                <TouchableOpacity style={styles.botao} onPress={() => goToHistorico()}>
                 Histórico 
                 </TouchableOpacity>
 

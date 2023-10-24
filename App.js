@@ -1,20 +1,26 @@
-import{ NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import Calculadora from './Calculadora';
-import Historico from './Historico';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
+import Calculadora from "./Calculadora";
+import Historico from "./Historico";
+
+import { UtilsContext } from "./Contex";
+import { useState } from "react";
 
 export default function App() {
-  const Stack = createStackNavigator()
+  
+  const [utils, setUtils] = useState({});
 
-  return(
-  <NavigationContainer>
-  <Stack.Navigator>
-    <Stack.Screen name="Calculadora" component = {Calculadora} />
-    <Stack.Screen name="Historico" component = {Historico} />
+  const Stack = createStackNavigator();
 
-  </Stack.Navigator>
-</NavigationContainer>
-
-);
+  return (
+    <NavigationContainer>
+      <UtilsContext.Provider value={{ utils, setUtils }}>
+        <Stack.Navigator>
+          <Stack.Screen name="Calculadora" component={Calculadora} />
+          <Stack.Screen name="Historico" component={Historico} />
+        </Stack.Navigator>
+      </UtilsContext.Provider>
+    </NavigationContainer>
+  );
 }
