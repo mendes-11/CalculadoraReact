@@ -5,14 +5,33 @@ import { UtilsContext } from "./Contex";
 export default function Calculadora(props){
     
     const [text, setText] = useState("");
+    const [conta, setConta] = useState("");
 
     const {utils, setUtils} = useContext(UtilsContext)
 
+    function calculo(){
+        const expressao = text;
+        const resultado = eval(text);
+        setConta(expressao + " = " + resultado);
+        setText(resultado);
+        enviar(conta);
+    }
+    
+    function enviar(){
+        if(utils.conta === undefined){
+            setUtils({...utils, conta: [conta] })
+        }
+        else{
+            setUtils({...utils, conta: [...utils.conta, conta] })
+        }
+   }
+
     function goToHistorico(){
-        setUtils({...utils, text: [text] })
+        
         props.navigation.navigate("Historico")
     }
-
+   
+    
     return(
         <View style={styles.container}>
             <Text style={styles.texto}>Calculadora</Text>
@@ -21,11 +40,11 @@ export default function Calculadora(props){
             </Text>
 
             <View style={styles.container2}>
-                <TouchableOpacity style={styles.botao} onPress={() => setText(text + "+")}>+</TouchableOpacity>
-                <TouchableOpacity style={styles.botao} onPress={() => setText(text + "-")}>-</TouchableOpacity>
-                <TouchableOpacity style={styles.botao} onPress={() => setText(text + "/")}>/</TouchableOpacity>
-                <TouchableOpacity style={styles.botao} onPress={() => setText(text + "*")}>x</TouchableOpacity>
-                <TouchableOpacity style={styles.botao} onPress={() => setText(eval(text))}>=</TouchableOpacity>
+                <TouchableOpacity style={styles.botao} onPress={() => setText(text + " + ")}>+</TouchableOpacity>
+                <TouchableOpacity style={styles.botao} onPress={() => setText(text + " - ")}>-</TouchableOpacity>
+                <TouchableOpacity style={styles.botao} onPress={() => setText(text + " / ")}>/</TouchableOpacity>
+                <TouchableOpacity style={styles.botao} onPress={() => setText(text + " * ")}>x</TouchableOpacity>
+                <TouchableOpacity style={styles.botao} onPress={() => calculo()}>=</TouchableOpacity>
             </View>
 
             <View style={styles.container2}>
